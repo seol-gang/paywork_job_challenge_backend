@@ -6,6 +6,8 @@ import cookieParser from "cookie-parser";
 import morgan from "morgan";
 import cors from "cors";
 
+import authRouter from "./routes/auth.routes";
+
 export class App {
   private app: express.Application;
 
@@ -22,6 +24,7 @@ export class App {
         credentials: true,
       })
     );
+    this.app.use("/auth", authRouter);
   }
 
   public getInstance() {
