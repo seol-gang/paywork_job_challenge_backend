@@ -4,10 +4,14 @@ import { PostRepository } from "../../database/repository/post.repository";
 
 // viewPostDetail.controller.ts
 // 게시글 상세보기에 대한 처리 로직 정의
-export const viewPostDetail = async (req: Request, res: Response) => {
+export const viewPostDetail = async (
+  req: Request,
+  res: Response
+): Promise<Response<any, Record<string, any>>> => {
   const postSEQ: number = (<any>req).params.postId;
   const postRepo: PostRepository = getCustomRepository(PostRepository);
 
+  // 게시글 고유 ID의 상세 데이터 반환
   let postData: any;
   try {
     postData = await postRepo.viewPostDetail(postSEQ);

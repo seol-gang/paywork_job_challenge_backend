@@ -16,7 +16,11 @@ const validatorOption: ValidatorOptions = {
 
 export const validationDto = {
   // 회원가입에 대한 유효성 검사
-  signUpValidation: async (req: Request, res: Response, next: NextFunction) => {
+  signUpValidation: async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Response<any, Record<string, any>>> => {
     const userDto: any = Object.assign(new SignUpUser(), req.body);
     const errors: ValidationError[] = await validate(userDto, validatorOption);
     if (errors.length > 0) {
@@ -26,7 +30,11 @@ export const validationDto = {
   },
 
   // 로그인에 대한 유효성 검사
-  signInValidation: async (req: Request, res: Response, next: NextFunction) => {
+  signInValidation: async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Response<any, Record<string, any>>> => {
     const userDto: any = Object.assign(new SignInUser(), req.body);
     const errors: ValidationError[] = await validate(userDto, validatorOption);
     if (errors.length > 0) {
@@ -40,7 +48,7 @@ export const validationDto = {
     req: Request,
     res: Response,
     next: NextFunction
-  ) => {
+  ): Promise<Response<any, Record<string, any>>> => {
     const postDto: any = Object.assign(new CreatePostDto(), req.body);
     const errors: ValidationError[] = await validate(postDto, validatorOption);
     if (errors.length > 0) {
@@ -54,7 +62,7 @@ export const validationDto = {
     req: Request,
     res: Response,
     next: NextFunction
-  ) => {
+  ): Promise<Response<any, Record<string, any>>> => {
     const postDto: any = Object.assign(new UpdatePostDto(), req.body);
     const errors: ValidationError[] = await validate(postDto, validatorOption);
     if (errors.length > 0) {

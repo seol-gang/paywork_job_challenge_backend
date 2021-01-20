@@ -50,7 +50,7 @@ export class User {
   posts: Post[];
 
   @BeforeInsert()
-  encryptPassword() {
+  encryptPassword(): void {
     this.PASSWORD = encrypt(this.PASSWORD);
   }
 }
