@@ -40,10 +40,10 @@ export class User {
   })
   PHONE: string;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ type: "timestamp" })
   createdAt: Date;
 
-  @UpdateDateColumn()
+  @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
   updatedAt: Date;
 
   @OneToMany(() => Post, (post) => post.user)
