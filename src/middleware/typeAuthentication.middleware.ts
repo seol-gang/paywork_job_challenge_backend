@@ -9,7 +9,11 @@ import { User } from "../database/entity/user.entity";
 
 export const typeAuthentication = {
   // 본인의 게시글이 맞는지 확인하는 함수
-  async postAuthentication(req: Request, res: Response, next: NextFunction) {
+  async postAuthentication(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<Response<any, Record<string, any>>> {
     const postSEQ: number = (<any>req).params.postId;
     const postRepo: PostRepository = getCustomRepository(PostRepository);
 
@@ -31,7 +35,11 @@ export const typeAuthentication = {
   },
 
   // 로그인 상태인지 확인하는 함수
-  async userAuthentication(req: Request, res: Response, next: NextFunction) {
+  async userAuthentication(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<any> {
     const token = (<any>req).cookies.X_AUTH;
 
     jwt.verify(token, process.env.JWT_SECRET, async (err: any, data: any) => {
