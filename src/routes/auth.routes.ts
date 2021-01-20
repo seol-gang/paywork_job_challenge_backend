@@ -1,10 +1,12 @@
 import { Router } from "express";
-import { validationDto } from "../middleware/validationDto";
-import { userAuthentication } from "../middleware/userAuthentication";
-import { signIn } from "../controllers/users/signIn.controller";
-import { signUp } from "../controllers/users/signUp.controller";
-import { signOut } from "../controllers/users/signOut.controller";
+import { validationDto } from "../middleware/validationDto.middleware";
+import { typeAuthentication } from "../middleware/typeAuthentication.middleware";
+import { signIn } from "../controller/auth/signIn.controller";
+import { signUp } from "../controller/auth/signUp.controller";
+import { signOut } from "../controller/auth/signOut.controller";
 
+// auth.routes.ts
+// 회원 인증에 대한 라우터 설정
 class AuthRouter {
   private router: Router = Router();
 
@@ -19,7 +21,11 @@ class AuthRouter {
   private configure(): void {
     this.router.post("/signup", validationDto.signUpValidation, <any>signUp);
     this.router.post("/signin", validationDto.signInValidation, <any>signIn);
-    this.router.delete("/signout", <any>userAuthentication, <any>signOut);
+    this.router.delete(
+      "/signout",
+      typeAuthentication.userAuthentication,
+      <any>signOut
+    );
   }
 }
 

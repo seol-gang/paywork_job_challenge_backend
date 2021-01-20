@@ -1,14 +1,22 @@
-import { Response } from "express";
-import { getCustomRepository } from "typeorm";
+import { Request, Response } from "express";
+import { getCustomRepository, getRepository } from "typeorm";
 import { UserRepository } from "../../database/repository/user.repository";
-import { SignInUser } from "../../dto/signInUser.dto";
+import { SignInUser } from "../../dto/auth/signInUser.dto";
 import * as jwt from "jsonwebtoken";
 
+// signIn.controller.ts
+// 유저 로그인에 대한 처리 로직 정의
 export const signIn = async (req: Request, res: Response) => {
   const userRepo: UserRepository = getCustomRepository(UserRepository);
   const body: SignInUser = <SignInUser>(<unknown>req.body);
 
-  const find = await userRepo.verifyLogin(body.email, body.password);
+  let find: any;
+  try {
+    find = await userRepo.verifyLogin(body.email, body.password);
+  } catch (e) {
+    return res.status(500).json({ message: "An error occurred during signin" });
+  }
+
   if (!find) {
     return res.status(401).json({ message: "No user information." });
   }
@@ -22,5 +30,5 @@ export const signIn = async (req: Request, res: Response) => {
   return res
     .status(200)
     .cookie("X_AUTH", token, { maxAge: 1000 * 60 * 60 })
-    .json({ code: 200, message: "Success Login" });
+    .json({ message: "Success Login" });
 };
