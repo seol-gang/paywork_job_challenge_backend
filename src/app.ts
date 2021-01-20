@@ -7,7 +7,10 @@ import morgan from "morgan";
 import cors from "cors";
 
 import authRouter from "./routes/auth.routes";
+import postRouter from "./routes/post.routes";
 
+// app.ts
+// Node 실행 환경 정의 클래스
 export class App {
   private app: express.Application;
 
@@ -25,6 +28,7 @@ export class App {
       })
     );
     this.app.use("/auth", authRouter);
+    this.app.use("/post", postRouter);
   }
 
   public getInstance() {
@@ -32,4 +36,4 @@ export class App {
   }
 }
 
-export default new App();
+export default App;
