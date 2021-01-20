@@ -31,7 +31,7 @@ export class App {
     this.app.use("/post", postRouter);
   }
 
-  public getInstance() {
+  public getInstance(): express.Application {
     return this.app;
   }
 }

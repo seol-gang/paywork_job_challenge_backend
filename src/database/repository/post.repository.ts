@@ -1,4 +1,9 @@
-import { EntityRepository, Repository } from "typeorm";
+import {
+  DeleteResult,
+  EntityRepository,
+  Repository,
+  UpdateResult,
+} from "typeorm";
 import { Post } from "../entity/post.entity";
 
 // post.repository.ts
@@ -6,7 +11,7 @@ import { Post } from "../entity/post.entity";
 @EntityRepository(Post)
 export class PostRepository extends Repository<Post> {
   // 게시글 상세 보기 시 해당 게시글 정보 반환
-  async viewPostDetail(postId: number) {
+  async viewPostDetail(postId: number): Promise<Post> {
     await this.createQueryBuilder()
       .update(Post)
       .set({ HIT: () => "HIT + 1" })
@@ -20,7 +25,7 @@ export class PostRepository extends Repository<Post> {
   }
 
   // 게시글 수정 시 받은 데이터로 업데이트
-  updatePost(postId: number, { title, content }: any) {
+  updatePost(postId: number, { title, content }: any): Promise<UpdateResult> {
     return this.createQueryBuilder()
       .update(Post)
       .set({
@@ -33,7 +38,7 @@ export class PostRepository extends Repository<Post> {
   }
 
   // 게시글 삭제 시 해당 게시글 삭제
-  deletePost(postId: number) {
+  deletePost(postId: number): Promise<DeleteResult> {
     return this.createQueryBuilder()
       .delete()
       .from(Post)
@@ -41,8 +46,21 @@ export class PostRepository extends Repository<Post> {
       .execute();
   }
 
+  searchAllPosts(): Promise<Post[]> {
+    return this.createQueryBuilder("post")
+      .leftJoinAndSelect("post.user", "user")
+      .select([
+        "post.POST_SEQ",
+        "post.TITLE",
+        "post.HIT",
+        "post.createdAt",
+        "user.NICKNAME",
+      ])
+      .getMany();
+  }
+
   // 게시글 제목으로 찾을 시 해당 게시글 정보 반환
-  searchPostByTitle(searchText: string) {
+  searchPostByTitle(searchText: string): Promise<Post[]> {
     return this.createQueryBuilder("post")
       .leftJoinAndSelect("post.user", "user")
       .select([
@@ -57,7 +75,7 @@ export class PostRepository extends Repository<Post> {
   }
 
   // 게시글 내용으로 찾을 시 해당 게시글 정보 반환
-  searchPostByContent(searchText: string) {
+  searchPostByContent(searchText: string): Promise<Post[]> {
     return this.createQueryBuilder("post")
       .leftJoinAndSelect("post.user", "user")
       .select([
@@ -72,7 +90,7 @@ export class PostRepository extends Repository<Post> {
   }
 
   // 작성한 유저 닉네임으로 찾을 시 해당 게시글 정보 반환
-  searchPostByUser(searchText: string) {
+  searchPostByUser(searchText: string): Promise<Post[]> {
     return this.createQueryBuilder("post")
       .leftJoinAndSelect("post.user", "user")
       .select([

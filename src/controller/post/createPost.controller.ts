@@ -5,16 +5,19 @@ import { getRepository } from "typeorm";
 
 // createPost.controller.ts
 // 게시글 등록에 대한 처리 로직 정의
-export const createPost = async (req: Request, res: Response) => {
+export const createPost = async (req: Request, res: Response): Promise<any> => {
   const body: CreatePostDto = <CreatePostDto>(<unknown>req.body);
-  const board: Post = new Post();
+  const post: Post = new Post();
 
-  board.TITLE = body.title;
-  board.CONTENT = body.content;
-  board.user = (<any>req).user;
+  // Post Entity에 값 할당
+  // Object Key 값이 달라 Object.assign 사용 시 에러
+  post.TITLE = body.title;
+  post.CONTENT = body.content;
+  post.user = (<any>req).user;
 
+  // 게시글 등록 후 해당 글로 리다이렉트
   getRepository(Post)
-    .save(board)
+    .save(post)
     .then((data) => res.redirect(`/post/${data.POST_SEQ}`))
     .catch((err) => {
       console.log(err);

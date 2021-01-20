@@ -7,7 +7,7 @@ import { User } from "../entity/user.entity";
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
   // 로그인 시 회원 정보를 찾기 위한 함수
-  verifyLogin(email: string, password: string) {
+  verifyLogin(email: string, password: string): Promise<User> {
     password = encrypt(password);
     return this.createQueryBuilder("user")
       .where("user.email = :email", { email })
