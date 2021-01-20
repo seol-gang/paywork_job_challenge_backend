@@ -4,12 +4,15 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
-import * as crypto from "crypto";
-import { encrypt } from "../../common/dataEncrypt";
+import { encrypt } from "../../util/dataEncrypt";
+import { Post } from "./post.entity";
 
+// user.entity.ts
+// TypeORM Entity를 이용하여 user 테이블 정의
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
@@ -17,6 +20,7 @@ export class User {
 
   @Column({
     length: 100,
+    unique: true,
   })
   EMAIL: string;
 
@@ -27,6 +31,7 @@ export class User {
 
   @Column({
     length: 20,
+    unique: true,
   })
   NICKNAME: string;
 
@@ -40,6 +45,9 @@ export class User {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @OneToMany(() => Post, (post) => post.user)
+  posts: Post[];
 
   @BeforeInsert()
   encryptPassword() {
