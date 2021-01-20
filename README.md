@@ -6,10 +6,14 @@
 
 ## 0. 실행
 
-> 1. `.env.exmple` 파일 명을 `.env` 로 변경 후 파일 안의 환경변수 작성 후 저장
-> 2. `npm install`
-> 3. `npm run build-start <or> ts-node-start`  
->    만약 build-start로 할 시 ormconfig.js 파일의 enetities 설정 부분에서 **.ts 를 **.js로 변경
+> 1. 데이터 베이스 생성
+> 2. `.env.exmple` 파일 명을 `.env` 로 변경 후 파일 안의 환경변수 작성 후 저장
+> 3. `npm install`
+> 4. `npm run build-start <or> ts-node-start`  
+>    *만약 build-start로 할 시 ormconfig.js 파일의 enetities 설정 부분에서 **.ts 를 **.js로 변경  
+>    *최초 실행 시 ts-node-start로 실행 (엔티티에 정의된 테이블 생성 필요)
+> 5. 약간의 테스트 데이터가 필요 하다면 paywowrk_test.sql 를 실행시켜 적용  
+>    `mysql -u <username> -p < paywork_test.sql`
 
 ---
 
@@ -84,6 +88,7 @@
 ├ ormconfig.js       TypeORM 설정 파일
 ├ package-lock.json  node_modules 의존성 트리 정의
 ├ package.json       프로젝트 및 사용한 모듈 정의
+├ paywork_test.sql   테스트 DB 데이터 쿼리문 정의
 ├ README.md          프로젝트 설명 마크다운
 └ tsconfig.json      Typescript 컴파일 설정 파일
 ```

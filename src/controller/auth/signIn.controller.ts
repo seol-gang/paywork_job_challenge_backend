@@ -36,5 +36,5 @@ export const signIn = async (
   return res
     .status(200)
     .cookie("X_AUTH", token, { maxAge: 1000 * 60 * 60 })
-    .json({ message: "Success Login" });
+    .json({ message: "Success singin" });
 };
